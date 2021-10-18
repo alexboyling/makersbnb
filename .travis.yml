@@ -1,0 +1,12 @@
+dist: focal
+language: ruby
+rvm:
+  - 3.0.2
+cache: bundler
+
+services:
+  - postgresql
+
+script:
+  - bundle exec rake
+  - bundle exec rspec
