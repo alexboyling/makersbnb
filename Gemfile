@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 
 ruby '3.0.2'
+gem 'bcrypt'
+gem 'sinatra-flash'
 
 group :test do
   gem 'capybara', '~> 3.35', '>= 3.35.3'

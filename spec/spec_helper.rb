@@ -1,4 +1,5 @@
-ENV['ENVIRONMENT'] = 'test'
+# frozen_string_literal: true
+ENV["ENVIRONMENT"] = "test"
 
 require 'capybara'
 require 'capybara/rspec'
@@ -7,9 +8,12 @@ require 'rspec'
 require 'sinatra/reloader'
 require 'simplecov'
 require 'simplecov-console'
-require_relative 'setup_test_database'
+require 'features/web_helpers'
+require 'rake'
 
+require File.join(File.dirname(__FILE__), "..", "app.rb")
 
+Capybara.app = Makersbnb
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
@@ -17,12 +21,17 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
     SimpleCov::Formatter::HTMLFormatter
   ]
 )
-SimpleCov.start
+SimpleCov.start do
+  add_filter 'rakefile'
+end
+
+Rake.application.load_rakefile
 
 RSpec.configure do |config|
   config.before(:each) do
-    setup_test_database
+    Rake::Task['test_database_setup'].execute
   end
+  
   config.after(:suite) do
     puts
     puts "\e[33mHave you considered running rubocop? It will help you improve your code!\e[0m"
