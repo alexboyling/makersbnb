@@ -55,7 +55,7 @@ task :drop_databases do
 
   connection = PG.connect(dbname: 'postgres')
   databases.each do |database|
-    connection.exec("DROP DATABASE IF EXISTS#{database};")
+    connection.exec("DROP DATABASE IF EXISTS #{database};")
   end
 end
 
