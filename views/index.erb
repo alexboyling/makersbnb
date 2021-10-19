@@ -1,0 +1,18 @@
+<% if @user %>
+  <h1><%= "#{@user.name}: #{@user.email} "%></h1>
+<% else %>
+  <form action="/sessions/login">
+    <input type="submit" value="Log In">
+  </form>
+  <form action="/users/sign_up">
+    <input type="submit" value="Sign Up">
+  </form>
+<% end %>
+
+<%# some body %>
+
+<% if @user %>
+  <form action="/sessions/destroy" method="post">
+    <input type="submit" value="Log Out" />
+  </form>
+<% end %>
