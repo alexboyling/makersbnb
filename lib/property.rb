@@ -6,7 +6,12 @@ class Property
 
   def self.create(name:, description:, location:, price: )
     result = DatabaseConnection.query("INSERT INTO properties (location, price_per_night, name, description) VALUES ($1, $2, $3, $4) RETURNING id, location, price_per_night, name, description;", [location, price, name, description])
-    Property.new(id: result.first['id'], name: result.first['name'], location: result.first['location'], price: result.first['price_per_night'], description: description)
+    Property.new(
+      id: result.first['id'],
+      name: result.first['name'],
+      location: result.first['location'],
+      price: result.first['price_per_night'],
+      description: result.first['description'])
   end
 
   def self.all
