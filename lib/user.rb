@@ -2,6 +2,8 @@ require 'bcrypt'
 require_relative './database_connection'
 
 class User
+  attr_reader :id, :name, :email
+  
   def self.create(name:, email:, password:)
     encrypted_password = BCrypt::Password.create(password)
 
@@ -26,8 +28,6 @@ class User
       name: result[0]['name'],
       email: result[0]['email'])
   end
-
-  attr_reader :id, :name, :email
 
   def initialize(id:, name:, email:)
     @id = id
