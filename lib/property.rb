@@ -69,14 +69,14 @@ class Property
 
   def self.where(user_id:)
     result = DatabaseConnection.query('SELECT * FROM properties WHERE owner_id = $1;', [user_id])
-    result.map do |_property|
+    result.map do |property|
       Property.new(
-        name: result.first['name'],
-        location: result.first['location'],
-        id: result.first['id'],
-        price: result.first['price_per_night'],
-        description: result.first['description'],
-        user_id: result.first['owner_id']
+        name: property['name'],
+        location: property['location'],
+        id: property['id'],
+        price: property['price_per_night'],
+        description: property['description'],
+        user_id: property['owner_id']
       )
     end
   end
