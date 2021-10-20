@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'user'
 
 describe User do
-  let(:user) { User.create(name: 'Jane', email: 'test@example.com', password: 'password123') } 
+  let(:user) { User.create(name: 'Jane', email: 'test@example.com', password: 'password123') }
 
   describe '.create' do
     it 'creates a new user' do
@@ -40,7 +42,7 @@ describe User do
       expect(result.id).to eq user.id
       expect(result.email).to eq user.email
     end
-    
+
     it 'returns nil if there is no ID given' do
       expect(User.find(id: nil)).to eq nil
     end

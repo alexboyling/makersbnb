@@ -1,8 +1,13 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'sinatra/reloader'
 require './database_connection_setup'
 require 'sinatra/flash'
 require './lib/user'
+require './lib/property'
+
+
 
 class Makersbnb < Sinatra::Base
   enable :sessions
@@ -13,8 +18,26 @@ class Makersbnb < Sinatra::Base
 
   get '/' do
     @user = User.find(id: session[:user_id])
+    @properties = Property.all
     erb :index
   end
+
+  get '/newlisting' do 
+    @user = User.find(id: session[:user_id])
+    @property = Property 
+    erb:'listing/new' 
+  end
+
+  post '/newlisting' do 
+    @user = User.find(id: session[:user_id])
+    @new_property = Property.create(name: params[:name],
+    description: params[:description],
+    location: params[:location],
+    price: params[:price],
+    user_id: session[:user_id])
+    redirect('/')
+  end 
+
 
   get '/sessions/login' do
     erb :'sessions/login'

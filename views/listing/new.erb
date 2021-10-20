@@ -1,0 +1,26 @@
+<form method="post" action="/newlisting">
+  <div>
+    <input type="text" name="name" placeholder="Enter name">
+    <input type="submit" name="name" value="Post"> 
+  </div><br>
+
+  <div>
+    <input type="text" name="description" placeholder="Enter description">
+    <input type="submit" name="description" value="Post"> 
+  </div><br>
+
+  <div>
+    <input type="text" name="location" placeholder="Enter location">
+    <input type="submit" name="location" value="Post"> 
+  </div><br>
+  
+  <div>
+    <input name="price" id="rangeInput" type="range" min="35" max="200" oninput="amount.value=rangeInput.value" />
+    <input id="amount" type="number" value="100" min="0" max="200" oninput="rangeInput.value=amount.value" />
+    Dollars
+  </div>
+  <br>
+  <div>
+  <button type="submit">Submit</button>
+  </div>
+</form>

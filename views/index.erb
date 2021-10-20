@@ -1,18 +1,45 @@
-<% if @user %>
-  <h1><%= "#{@user.name}: #{@user.email} "%></h1>
-<% else %>
-  <form action="/sessions/login">
-    <input type="submit" value="Log In">
-  </form>
-  <form action="/users/sign_up">
-    <input type="submit" value="Sign Up">
-  </form>
-<% end %>
+<head>
+  <meta charset="utf-8">
+  <title>makersbnb</title>
+  <link rel="stylesheet" type="text/css" href="/app.css">
+</head>
+<header>
+  <div class="main-nav">
+    <% if @user %>
+      <li><%= "#{@user.name}: #{@user.email} "%></li>
+      <li>
+        <form action="/sessions/destroy" method="post">
+          <input type="submit" value="Log Out" />
+        </form>
+      </li>
+    <% else %>
+      <ul >
+        <li>
+          <form action="/sessions/login">
+            <input type="submit" value="Log In">
+          </form>
+        </li>
+        <li>
+          <form action="/users/sign_up">
+            <input type="submit" value="Sign Up">
+          </form>
+        </li>
+      </ul>
+    <% end %>
+  </div>
 
-<%# some body %>
+<%# more header items %>
+</header>
 
-<% if @user %>
-  <form action="/sessions/destroy" method="post">
-    <input type="submit" value="Log Out" />
-  </form>
+<form action="/newlisting">
+  <button type="submit">Create a listing</button>
+</form>
+
+<%@properties.each do |property| %>
+  <li style="list-style-type:none;"">
+    <%= property.name %><br>
+    Location: <%= property.location %><br>
+    Description: <%= property.description %><br>
+    Price per night: <%= property.price %><br>
+  </li><br>
 <% end %>
