@@ -109,4 +109,9 @@ class Booking
     @booking_status = booking_status
   end
 
+  def property_name
+    name = DatabaseConnection.query("SELECT name FROM properties WHERE id = $1", [self.property_id])
+    name.first['name']
+  end
+
 end

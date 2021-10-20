@@ -1,0 +1,10 @@
+<h2>Requests I've made</h2>
+<ul>
+  <% @guest_requests.each do |request| %>
+    <li><%= request.property_name %><br>
+        <%= request.start_date %> to <%= request.end_date %><br>
+        <%= request.booking_status %>
+    </li>
+  <% end %>
+</ul>
+<h2>Requests I've received</h2>

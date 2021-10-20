@@ -6,8 +6,7 @@ require './database_connection_setup'
 require 'sinatra/flash'
 require './lib/user'
 require './lib/property'
-
-
+require './lib/booking'
 
 class Makersbnb < Sinatra::Base
   enable :sessions
@@ -69,4 +68,11 @@ class Makersbnb < Sinatra::Base
     flash[:notice] = 'You have signed out.'
     redirect('/')
   end
+
+  get '/requests' do
+    @user = User.find(id: session[:user_id])
+    @guest_requests = Booking.find_by_guest(guest_id: session[:user_id])
+    erb :'requests'
+  end
+
 end

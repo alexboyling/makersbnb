@@ -118,4 +118,10 @@ describe Booking do
       expect(denied_booking.booking_status).to eq 'denied'
     end
   end
+
+  describe '#property_name' do
+    it 'gets a property name for a booking' do
+      expect(booking.property_name).to eq property.name
+    end
+  end
 end
