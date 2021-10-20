@@ -90,6 +90,11 @@ class Property
     @user_id = user_id
     @dates_booked = [] # Created an empty array to store dates
   end
+
+  def bookings(booking_class = Booking)
+    booking_class.find_by_property(property_id: id)
+  end
+
 end
 
 # Created a delete to delete a specific property. Will need to delete any related bookings also

@@ -85,4 +85,20 @@ describe Property do
       expect(result.last.user_id).to eq user.id
     end
   end
+
+  let(:booking_class) { double(:booking_class) }
+
+  describe '#bookings' do
+    it 'calls .find_by_property on the Booking class' do
+      property = Property.create(
+        name: 'irrelevant',
+        description: 'nice home',
+        location: 'address',
+        price: 12.50,
+        user_id: user.id)
+
+      expect(booking_class).to receive(:find_by_property).with(property_id: property.id)
+      property.bookings(booking_class)
+    end
+  end
 end
