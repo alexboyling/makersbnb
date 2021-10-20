@@ -30,6 +30,35 @@ describe Booking do
     end
   end
 
+  describe '.find_by_guest' do
+    it 'returns bookings by guest id' do
+      # create booking 1
+      booking = Booking.create(
+        guest_id: user.id,
+        property_id: nil,
+        start_date: '2021-10-01',
+        end_date: '2021-10-08',
+        booking_status: 'pending'
+      )
+      # create booking 2
+      extra_booking = Booking.create(
+        guest_id: user.id,
+        property_id: nil,
+        start_date: '2021-10-09',
+        end_date: '2021-10-16',
+        booking_status: 'confirmed'
+      )
+
+      bookings = Booking.find_by_guest(guest_id: user.id)
+      result = bookings.last
+
+      expect(bookings.length).to eq 2
+      expect(result).to be_a Booking
+      expect(result.id).to eq extra_booking.id
+      expect(result.booking_status).to eq extra_booking.booking_status
+    end
+  end
+
   describe '.delete' do
     it 'it deletes the given booking' do
       Booking.delete(id: booking.id)
@@ -44,10 +73,18 @@ describe Booking do
         id: booking.id,
         booking_status: 'confirmed'
       )
-      
+
       expect(updated_booking).to be_a Booking
       expect(updated_booking.id).to eq booking.id
       expect(updated_booking.booking_status).to eq 'confirmed'
+    end
+  end
+
+  describe '.confirm' do
+    it 'updates the booking status to confirm' do
+      p booking
+      expect(booking.confirm).to change { booking.booking_status}.from('pending').to('confirmed')
+      p booking
     end
   end
 end

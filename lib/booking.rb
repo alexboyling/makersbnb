@@ -30,6 +30,20 @@ class Booking
       booking_status: result.first['booking_status']
     )
   end
+  
+  def self.find_by_guest(guest_id:)
+    result = DatabaseConnection.query("SELECT * FROM bookings WHERE guest_id = $1", [guest_id])
+    result.map do |booking|
+      Booking.new(
+        id: booking['id'],
+        guest_id: booking['guest_id'],
+        property_id: booking['property_id'],
+        start_date: booking['start_date'],
+        end_date: booking['end_date'],
+        booking_status: booking['booking_status']
+      )
+    end
+  end
 
   def self.all
     DatabaseConnection.query("SELECT * FROM bookings")
@@ -55,6 +69,10 @@ class Booking
     )
   end
 
+  def self.confirm(id:)
+    Booking.update(id: self.id, booking_status: 'confirmed')
+  end
+
     attr_reader :id, :guest_id, :property_id, :start_date, :end_date, :booking_status
 
     def initialize(id:, guest_id:, property_id:, start_date:, end_date:, booking_status:)
@@ -65,4 +83,9 @@ class Booking
       @end_date = end_date
       @booking_status = booking_status
     end
+
+    def confirm
+      Booking.update(id: self.id, booking_status: 'confirmed')
+    end
+
 end
