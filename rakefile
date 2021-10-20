@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'pg'
 
-databases = ['makersbnb', 'makersbnb_test']
+databases = %w[makersbnb makersbnb_test]
 
 task :setup do
   p 'Creating databases...'
@@ -9,7 +11,7 @@ task :setup do
     connection = PG.connect
     begin
       connection.exec("CREATE DATABASE #{database};")
-    rescue => exception
+    rescue StandardError => e
       p "Database #{database} already exists. Skipping creation."
     else
       connection = PG.connect(dbname: database)
@@ -20,7 +22,7 @@ task :setup do
           name VARCHAR(60),
           password VARCHAR(140),
           phone_number VARCHAR(50));"
-        )
+      )
       connection.exec(
         "CREATE TABLE properties(
           id SERIAL PRIMARY KEY,
@@ -29,7 +31,7 @@ task :setup do
           owner_id INTEGER REFERENCES users (id),
           name VARCHAR(60),
           description VARCHAR(240));"
-        )
+      )
       connection.exec(
         "CREATE TABLE bookings(
           id SERIAL PRIMARY KEY,
@@ -38,20 +40,20 @@ task :setup do
           start_date DATE,
           end_date DATE,
           booking_status VARCHAR(60));"
-        )
+      )
     end
   end
 end
 
 task :test_database_setup do
-  p "Cleaning test database..."
+  p 'Cleaning test database...'
 
   connection = PG.connect(dbname: 'makersbnb_test')
-  connection.exec("TRUNCATE users, properties, bookings;")
+  connection.exec('TRUNCATE users, properties, bookings;')
 end
 
 task :drop_databases do
-  p "Dropping databases..."
+  p 'Dropping databases...'
 
   connection = PG.connect(dbname: 'postgres')
   databases.each do |database|

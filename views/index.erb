@@ -31,4 +31,15 @@
 <%# more header items %>
 </header>
 
-<%# some body %>
+<form action="/newlisting">
+  <button type="submit">Create a listing</button>
+</form>
+
+<%@properties.each do |property| %>
+  <li style="list-style-type:none;"">
+    <%= property.name %><br>
+    Location: <%= property.location %><br>
+    Description: <%= property.description %><br>
+    Price per night: <%= property.price %><br>
+  </li><br>
+<% end %>
