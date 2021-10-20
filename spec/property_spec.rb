@@ -57,5 +57,5 @@ require 'database_helpers'
       expect(result.id).to eq property.id
       expect(result.name).to eq property.name
     end 
-  end 
+  end
 end
