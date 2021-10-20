@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-require './lib/property'
-require './lib/database_connection'
-
-def persisted_data(table:, id:)
-  DatabaseConnection.query("SELECT * FROM #{table} WHERE id = $1;", [id])
-end
+require 'property'
+require 'database_helpers'
 
 describe Property do
   let(:user) { User.create(name: 'Jane', email: 'test@example.com', password: 'password123') }

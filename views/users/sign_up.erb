@@ -1,6 +1,22 @@
-<form method="post" action="/users">
-  <input type="text" name="name" placeholder="Name">
-  <input type="email" name="email" placeholder="Email">
-  <input type="password" name="password" placeholder="Password">
-  <input type="submit" value="Submit">
-</form>
+<head>
+  <meta charset="utf-8">
+  <title>Sign Up to makersbnb</title>
+  <link rel="stylesheet" type="text/css" href="/app.css">
+</head>
+<div class="sign-up-box">
+  <form method="post" action="/users">
+    <div class="padding">
+      <label for="name">Name</label>
+      <input type="text" name="name" placeholder="Name">
+    </div>
+    <div class="padding">
+      <label for="email">Email</label>
+      <input type="email" name="email" placeholder="Email">
+    </div>
+    <div class="padding">
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="Password">
+    </div>
+      <input type="submit" value="Submit" class="button">
+  </form>
+</div>
