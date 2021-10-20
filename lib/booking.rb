@@ -69,10 +69,6 @@ class Booking
     )
   end
 
-  def self.confirm(id:)
-    Booking.update(id: self.id, booking_status: 'confirmed')
-  end
-
     attr_reader :id, :guest_id, :property_id, :start_date, :end_date, :booking_status
 
     def initialize(id:, guest_id:, property_id:, start_date:, end_date:, booking_status:)
@@ -82,10 +78,6 @@ class Booking
       @start_date = start_date
       @end_date = end_date
       @booking_status = booking_status
-    end
-
-    def confirm
-      Booking.update(id: self.id, booking_status: 'confirmed')
     end
 
 end
