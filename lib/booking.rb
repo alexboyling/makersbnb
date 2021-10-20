@@ -119,4 +119,9 @@ class Booking
     name.first['name']
   end
 
+  def host
+    name = DatabaseConnection.query("SELECT owner_id FROM properties WHERE id = $1", [self.property_id])
+    name.first['owner_id']
+  end
+
 end

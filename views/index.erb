@@ -8,6 +8,11 @@
     <% if @user %>
       <li><%= "#{@user.name}: #{@user.email} "%></li>
       <li>
+          <form action="/requests">
+            <input type="submit" value="Requests">
+          </form>
+      </li>
+      <li>
         <form action="/sessions/destroy" method="post">
           <input type="submit" value="Log Out" />
         </form>
