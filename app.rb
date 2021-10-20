@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'sinatra/reloader'
 require './database_connection_setup'
