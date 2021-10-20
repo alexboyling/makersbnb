@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 feature 'Create a listing' do 
-  scenario 'a user list multiple properties' do 
+  scenario 'a user lists multiple properties' do 
     sign_up
     create_listing1
     expect(page).to have_content("2 bed flat")
@@ -15,7 +15,7 @@ feature 'Create a listing' do
     expect(page).to have_content("$155")
   end 
 
-  scenario 'a user list one property' do 
+  scenario 'a user lists one property' do 
     sign_up
     create_listing1
     expect(page).to have_content("2 bed flat")
