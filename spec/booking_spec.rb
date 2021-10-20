@@ -124,4 +124,10 @@ describe Booking do
       expect(booking.property_name).to eq property.name
     end
   end
+
+  describe '#requester' do
+    it 'gets the name of the booking requester' do
+      expect(booking.requester).to eq user.name
+    end
+  end
 end

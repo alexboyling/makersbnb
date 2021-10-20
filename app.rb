@@ -72,7 +72,13 @@ class Makersbnb < Sinatra::Base
   get '/requests' do
     @user = User.find(id: session[:user_id])
     @guest_requests = Booking.find_by_guest(guest_id: session[:user_id])
-    erb :'requests'
+    erb :'requests/index'
+  end
+
+  get '/requests/:id' do
+    @user = User.find(id: session[:user_id])
+    @booking = Booking.find(id: params['id'])
+    erb :'requests/manage'
   end
 
 end

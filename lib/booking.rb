@@ -114,4 +114,9 @@ class Booking
     name.first['name']
   end
 
+  def requester
+    name = DatabaseConnection.query("SELECT name FROM users WHERE id = $1", [self.guest_id])
+    name.first['name']
+  end
+
 end
