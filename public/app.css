@@ -21,6 +21,10 @@ border-right: none;
 border-left: none;
 }
 
+.body {
+  margin-top: 62px
+}
+
 /*---main-nav---*/
 
 .main-nav {

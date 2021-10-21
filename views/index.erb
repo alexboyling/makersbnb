@@ -38,7 +38,7 @@
 <%# more header items %>
 </header>
   
-
+<body class="body">
 <%@properties.each do |property| %>
   <li class="property" id= "property-<%= property.id %>">
     <%= property.name %><br>
@@ -50,3 +50,4 @@
     </form>
   </li><br>
 <% end %>
+</body>
