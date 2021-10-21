@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require 'pg'
+require './lib/booking'
+require './lib/property'
+require './lib/user'
 
 databases = %w[makersbnb makersbnb_test]
 
@@ -68,15 +71,54 @@ task :reset do
 end
 
 task :seed do
+  Rake::Task[:reset].execute
   p 'Adding test data to development database...'
-
-  connection = PG.connect(dbname: 'makersbnb')
-  connection.exec('TRUNCATE users, properties, bookings;')
+  DatabaseConnection.setup('makersbnb')
 
   p 'Adding users'
+  user1 = User.create(name: 'Host Alex', email: 'alex@example.com', password: 'password123')
+  user2 = User.create(name: 'Host Tom', email: 'tom@example.com', password: 'password123')
+  user3 = User.create(name: 'Host Emmanuel', email: 'emmanuel@example.com', password: 'password123')
+  user4 = User.create(name: 'Guest Bob', email: 'bob@example.com', password: 'password123')
+  user5 = User.create(name: 'Guest Charlie', email: 'charlie@example.com', password: 'password123')
 
   p 'Adding properties'
-
+  property1 = Property.create(
+    name: 'Cosy Studio Flat',
+    description: 'Studio apartment, modern decor and amazing lighting close to everything London has to offer.',
+    location: 'Camden Town',
+    price: 65,
+    host_id: user1.id
+  )
+  property2 = Property.create(
+    name: 'Modern House',
+    description: 'Full of life and charm, the modern living area and tranquil garden offers a perfect respite.',
+    location: 'Chiswick',
+    price: 120,
+    host_id: user1.id
+  )
+  property3 = Property.create(
+    name: 'Double bedroom with en-suite',
+    description: 'A beautiful bright double bedroom with private en-suite shower/WC.',
+    location: 'Streatham',
+    price: 80,
+    host_id: user2.id
+  )
+  property4 = Property.create(
+    name: 'Aldgate Cosy Studio Apartment',
+    description: 'Ideal city central location for people visiting the city, work or just passing through.',
+    location: 'Brick Lane',
+    price: 75,
+    host_id: user3.id
+  )
   p 'Adding bookings'
+  booking1 = Booking.create(
+    host_id:,
+    guest_id:,
+    property_id:,
+    start_date:,
+    end_date:,
+    booking_status:)
 
+  p 'Complete'
 end
