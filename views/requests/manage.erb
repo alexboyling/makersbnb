@@ -13,4 +13,17 @@ Date: <%= @booking.start_date %><br>
 
 <h2>Other requests for this space</h2>
 
-Host: <%= @booking.host %>
+<ul>
+  <% @other_bookings.each do |booking| %>
+    <% if @booking.id == booking.id %>
+      <%# Don't show the booking %>
+    <% else %>
+      <li>
+        <a href="/requests/<%= booking.id %>">
+          <%= booking.start_date %> to <%= booking.end_date %><br>
+          <%= booking.booking_status %>
+        </a>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

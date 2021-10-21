@@ -97,6 +97,7 @@ class Makersbnb < Sinatra::Base
   get '/requests/:id' do
     @user = User.find(id: session[:user_id])
     @booking = Booking.find(id: params['id'])
+    @other_bookings = Booking.find_by_property(property_id: @booking.property_id)
     erb :'requests/manage'
   end
 
