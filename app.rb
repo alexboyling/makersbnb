@@ -9,7 +9,7 @@ require './lib/property'
 require './lib/booking'
 
 class Makersbnb < Sinatra::Base
-  enable :sessions
+  enable :sessions, :method_override
   register Sinatra::Flash
   configure :development do
     register Sinatra::Reloader
@@ -96,8 +96,19 @@ class Makersbnb < Sinatra::Base
 
   get '/requests/:id' do
     @user = User.find(id: session[:user_id])
-    @booking = Booking.find(id: params['id'])
+    @booking = Booking.find(id: params[:id])
+    @other_bookings = Booking.find_by_property(property_id: @booking.property_id)
     erb :'requests/manage'
+  end
+
+  post '/requests/:id/confirm' do
+    Booking.confirm(id: params[:id])
+    redirect('/requests')
+  end
+
+  post '/requests/:id/deny' do
+    Booking.deny(id: params[:id])
+    redirect('/requests')
   end
 
 end
