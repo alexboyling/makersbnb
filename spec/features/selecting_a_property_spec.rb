@@ -10,7 +10,7 @@ feature 'Seeing all properties' do
     create_listing2
     visit('/')
     first(".property").click_button "Book"
-    expect(current_path).to eq "/property/#{Property.all.first.id}/request-to-book"
+    expect(current_path).to eq "/property/#{Property.all_available.first.id}/request-to-book"
     fill_in('start_date', with: 2022-01-01)
     fill_in('end_date', with: 2022-01-10)
     click_button("Request to Book")

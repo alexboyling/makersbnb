@@ -40,7 +40,7 @@ describe Property do
     end
   end
 
-  describe '.all' do
+  describe '.all_available' do
     it 'returns creates an array of properties using the data stored in the db' do
       property = Property.create(
         name: 'irrelevant',
@@ -56,7 +56,7 @@ describe Property do
         price: 140.50,
         host_id: user2.id
       )
-      property_list = Property.all
+      property_list = Property.all_available
 
       persisted_data = persisted_data(table: 'properties', id: property.id)
 
