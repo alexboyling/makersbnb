@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'database_connection'
 
 class Property
@@ -22,8 +21,16 @@ class Property
     )
   end
 
-  def self.all
-    result = DatabaseConnection.query('SELECT * FROM properties')
+  def self.all_available(start_date = nil, end_date = nil)
+    start_date ||= DateTime.now.to_date
+    end_date ||= '5001-01-01'
+    result = DatabaseConnection.query(
+      "SELECT * FROM properties p
+      INNER JOIN bookings b on p.id = b.property_id
+      WHERE booking_status = 'confirmed' AND start_date BETWEEN $1 and $2
+      OR
+      booking_status = 'confirmed' AND end_date BETWEEN $1 and $2", [start_date, end_date])
+
     result.map do |properties|
       Property.new(
         name: properties['name'],

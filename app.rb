@@ -19,7 +19,7 @@ class Makersbnb < Sinatra::Base
 
   get '/' do
     @user = User.find(id: session[:user_id])
-    @properties = Property.all
+    @properties = Property.all_available(params['start_date'], params['end_date'])
     erb :index
   end
 

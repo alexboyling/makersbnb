@@ -32,8 +32,15 @@
   </form>
 <%# more header items %>
 </header>
-  
-
+<body>  
+  <form action="/">
+    <label for="start_date">Start Date</label>
+    <input type="date" name="start_date">
+    <label for="end_date">End Date</label>
+    <input type="date" name="end_date">
+    <input type="submit" value="Show Available">
+  </form>
+</body>  
 <%@properties.each do |property| %>
   <li class="property" id= "property-<%= property.id %>">
     <%= property.name %><br>

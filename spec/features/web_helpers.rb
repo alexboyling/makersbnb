@@ -35,5 +35,15 @@ def create_listing2
   fill_in('location', with: 'Camden')
   fill_in('price', with: 155)
   click_button('Submit')
-end 
+end
+
+def book_property
+  create_listing1
+  visit('/')
+  first(".property").click_button "Book"
+  expect(current_path).to eq "/property/#{Property.all_available.first.id}/request-to-book"
+  fill_in('start_date', with: 2022-01-01)
+  fill_in('end_date', with: 2022-12-31)
+  click_button("Request to Book")
+end
 
