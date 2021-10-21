@@ -76,11 +76,11 @@ task :seed do
   DatabaseConnection.setup('makersbnb')
 
   p 'Adding users'
-  user1 = User.create(name: 'Host Alex', email: 'alex@example.com', password: 'password123')
-  user2 = User.create(name: 'Host Tom', email: 'tom@example.com', password: 'password123')
-  user3 = User.create(name: 'Host Emmanuel', email: 'emmanuel@example.com', password: 'password123')
-  user4 = User.create(name: 'Guest Bob', email: 'bob@example.com', password: 'password123')
-  user5 = User.create(name: 'Guest Charlie', email: 'charlie@example.com', password: 'password123')
+  host_alex = User.create(name: 'Host Alex', email: 'alex@example.com', password: 'password123')
+  host_tom = User.create(name: 'Host Tom', email: 'tom@example.com', password: 'password123')
+  host_emm = User.create(name: 'Host Emmanuel', email: 'emmanuel@example.com', password: 'password123')
+  guest_bob = User.create(name: 'Guest Bob', email: 'bob@example.com', password: 'password123')
+  guest_charlie = User.create(name: 'Guest Charlie', email: 'charlie@example.com', password: 'password123')
 
   p 'Adding properties'
   property1 = Property.create(
@@ -88,37 +88,69 @@ task :seed do
     description: 'Studio apartment, modern decor and amazing lighting close to everything London has to offer.',
     location: 'Camden Town',
     price: 65,
-    host_id: user1.id
+    host_id: host_alex.id
   )
   property2 = Property.create(
     name: 'Modern House',
     description: 'Full of life and charm, the modern living area and tranquil garden offers a perfect respite.',
     location: 'Chiswick',
     price: 120,
-    host_id: user1.id
+    host_id: host_alex.id
   )
   property3 = Property.create(
     name: 'Double bedroom with en-suite',
     description: 'A beautiful bright double bedroom with private en-suite shower/WC.',
     location: 'Streatham',
     price: 80,
-    host_id: user2.id
+    host_id: host_tom.id
   )
   property4 = Property.create(
     name: 'Aldgate Cosy Studio Apartment',
     description: 'Ideal city central location for people visiting the city, work or just passing through.',
     location: 'Brick Lane',
     price: 75,
-    host_id: user3.id
+    host_id: host_emm.id
   )
   p 'Adding bookings'
-  booking1 = Booking.create(
-    host_id:,
-    guest_id:,
-    property_id:,
-    start_date:,
-    end_date:,
-    booking_status:)
-
+  Booking.create(
+    host_id: property1.host_id,
+    guest_id: guest_bob.id,
+    property_id: property1.id,
+    start_date: '2021-10-01',
+    end_date: '2021-10-08',
+    booking_status: 'pending'
+  )
+  Booking.create(
+    host_id: property1.host_id,
+    guest_id: guest_charlie.id,
+    property_id: property1.id,
+    start_date: '2021-10-09',
+    end_date: '2021-10-16',
+    booking_status: 'confirmed'
+  )
+  Booking.create(
+    host_id: property2.host_id,
+    guest_id: guest_bob.id,
+    property_id: property2.id,
+    start_date: '2021-11-01',
+    end_date: '2021-11-08',
+    booking_status: 'pending'
+  )
+  Booking.create(
+    host_id: property2.host_id,
+    guest_id: guest_charlie.id,
+    property_id: property2.id,
+    start_date: '2021-11-09',
+    end_date: '2021-11-16',
+    booking_status: 'pending'
+  )
+  Booking.create(
+    host_id: property3.host_id,
+    guest_id: guest_bob.id,
+    property_id: property3.id,
+    start_date: '2021-11-01',
+    end_date: '2021-11-08',
+    booking_status: 'pending'
+  )
   p 'Complete'
 end
