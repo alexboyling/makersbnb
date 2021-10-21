@@ -4,9 +4,9 @@ require 'database_helpers'
 describe Booking do
   let(:user) { User.create(name: 'Jane', email: 'test@example.com', password: 'password123') }
   let(:user2) { User.create(name: 'Jim', email: 'test@example.com', password: 'password123') }
-  let(:property) { Property.create(name: 'Property 1', description: 'nice home', location: 'address', price: 50.00, user_id: user.id) }
-  let(:property2) { Property.create(name: 'Property 2', description: 'nice home', location: 'address', price: 100.00, user_id: user.id) }
-  let(:booking) { Booking.create(guest_id: user.id, property_id: property.id, start_date: '2021-10-01', end_date: '2021-10-08', booking_status: 'pending') }
+  let(:property) { Property.create(name: 'Property 1', description: 'nice home', location: 'address', price: 50.00, host_id: user.id) }
+  let(:property2) { Property.create(name: 'Property 2', description: 'nice home', location: 'address', price: 100.00, host_id: user.id) }
+  let(:booking) { Booking.create(host_id: property.host_id, guest_id: user.id, property_id: property.id, start_date: '2021-10-01', end_date: '2021-10-08', booking_status: 'pending') }
 
   describe '.create' do
     it 'creates a new booking' do
@@ -37,6 +37,7 @@ describe Booking do
     it 'returns bookings by guest id' do
       # create booking 1
       booking = Booking.create(
+        host_id: property.host_id,
         guest_id: user.id,
         property_id: property.id,
         start_date: '2021-10-01',
@@ -45,6 +46,7 @@ describe Booking do
       )
       # create booking 2
       extra_booking = Booking.create(
+        host_id: property.host_id,
         guest_id: user.id,
         property_id: property2.id,
         start_date: '2021-10-09',
@@ -66,6 +68,7 @@ describe Booking do
     it 'returns bookings by property id' do
       # create booking 1
       booking = Booking.create(
+        host_id: property.host_id,
         guest_id: user2.id,
         property_id: property.id,
         start_date: '2021-10-01',
@@ -74,6 +77,7 @@ describe Booking do
       )
       # create booking 2
       extra_booking = Booking.create(
+        host_id: property.host_id,
         guest_id: user2.id,
         property_id: property.id,
         start_date: '2021-10-09',

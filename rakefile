@@ -28,13 +28,14 @@ task :setup do
           id SERIAL PRIMARY KEY,
           location VARCHAR(100),
           price_per_night MONEY,
-          owner_id INTEGER REFERENCES users (id),
+          host_id INTEGER REFERENCES users (id),
           name VARCHAR(60),
           description VARCHAR(240));"
       )
       connection.exec(
         "CREATE TABLE bookings(
           id SERIAL PRIMARY KEY,
+          host_id INTEGER REFERENCES users (id),
           guest_id INTEGER REFERENCES users (id),
           property_id INTEGER REFERENCES properties (id),
           start_date DATE,

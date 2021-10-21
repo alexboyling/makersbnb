@@ -3,14 +3,14 @@
 require_relative 'database_connection'
 
 class Property
-  attr_reader :name, :description, :location, :price, :id, :user_id, :dates_booked
+  attr_reader :name, :description, :location, :price, :id, :host_id, :dates_booked
 
-  def self.create(name:, description:, location:, price:, user_id:)
+  def self.create(name:, description:, location:, price:, host_id:)
     result = DatabaseConnection.query(
       'INSERT INTO properties (location, price_per_night,
-      name, description, owner_id) VALUES ($1, $2, $3, $4, $5) RETURNING id,
-      location, price_per_night, name, description, owner_id;',
-      [location, price, name, description, user_id]
+      name, description, host_id) VALUES ($1, $2, $3, $4, $5) RETURNING id,
+      location, price_per_night, name, description, host_id;',
+      [location, price, name, description, host_id]
     )
     Property.new(
       id: result.first['id'],
@@ -18,7 +18,7 @@ class Property
       location: result.first['location'],
       price: result.first['price_per_night'],
       description: result.first['description'],
-      user_id: result.first['owner_id']
+      host_id: result.first['host_id']
     )
   end
 
@@ -31,7 +31,7 @@ class Property
         id: properties['id'],
         price: properties['price_per_night'],
         description: properties['description'],
-        user_id: result.first['owner_id']
+        host_id: result.first['host_id']
       )
     end
   end
@@ -42,7 +42,7 @@ class Property
       description = $3,
       location = $4,
       price_per_night = $5 WHERE id = $1 RETURNING id,
-      name, description, location, price_per_night, owner_id",
+      name, description, location, price_per_night, host_id",
       [id, name, description, location, price]
     )
     Property.new(
@@ -51,7 +51,7 @@ class Property
       id: result.first['id'],
       price: result.first['price_per_night'],
       description: result.first['description'],
-      user_id: result.first['owner_id']
+      host_id: result.first['host_id']
     )
   end
 
@@ -63,12 +63,12 @@ class Property
       id: result.first['id'],
       price: result.first['price_per_night'],
       description: result.first['description'],
-      user_id: result.first['owner_id']
+      host_id: result.first['host_id']
     )
   end
 
-  def self.where(user_id:)
-    result = DatabaseConnection.query('SELECT * FROM properties WHERE owner_id = $1;', [user_id])
+  def self.where(host_id:)
+    result = DatabaseConnection.query('SELECT * FROM properties WHERE host_id = $1;', [host_id])
     result.map do |property|
       Property.new(
         name: property['name'],
@@ -76,18 +76,18 @@ class Property
         id: property['id'],
         price: property['price_per_night'],
         description: property['description'],
-        user_id: property['owner_id']
+        host_id: property['host_id']
       )
     end
   end
 
-  def initialize(id:, name:, description:, location:, price:, user_id:)
+  def initialize(id:, name:, description:, location:, price:, host_id:)
     @id = id
     @name = name
     @description = description
     @location = location
     @price = price
-    @user_id = user_id
+    @host_id = host_id
     @dates_booked = [] # Created an empty array to store dates
   end
 
