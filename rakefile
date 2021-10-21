@@ -66,3 +66,17 @@ task :reset do
   Rake::Task[:drop_databases].execute
   Rake::Task[:setup].execute
 end
+
+task :seed do
+  p 'Adding test data to development database...'
+
+  connection = PG.connect(dbname: 'makersbnb')
+  connection.exec('TRUNCATE users, properties, bookings;')
+
+  p 'Adding users'
+
+  p 'Adding properties'
+
+  p 'Adding bookings'
+
+end

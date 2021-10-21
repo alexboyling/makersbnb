@@ -36,4 +36,3 @@ def create_listing2
   fill_in('price', with: 155)
   click_button('Submit')
 end 
-

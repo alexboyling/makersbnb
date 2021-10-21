@@ -17,7 +17,7 @@ describe Booking do
     end
 
     it 'creates a booking that holds persistant data' do
-      persisted_data = persisted_data(table: 'bookings', id: booking.id )
+      persisted_data = persisted_data(table: 'bookings', id: booking.id)
 
       expect(booking.id).to eq persisted_data.first['id']
     end

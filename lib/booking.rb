@@ -117,17 +117,17 @@ class Booking
   end
 
   def property_name
-    name = DatabaseConnection.query("SELECT name FROM properties WHERE id = $1", [self.property_id])
+    name = DatabaseConnection.query("SELECT name FROM properties WHERE id = $1", [property_id])
     name.first['name']
   end
 
   def requester
-    name = DatabaseConnection.query("SELECT name FROM users WHERE id = $1", [self.guest_id])
+    name = DatabaseConnection.query("SELECT name FROM users WHERE id = $1", [guest_id])
     name.first['name']
   end
 
   def host
-    name = DatabaseConnection.query("SELECT host_id FROM properties WHERE id = $1", [self.property_id])
+    name = DatabaseConnection.query("SELECT host_id FROM properties WHERE id = $1", [property_id])
     name.first['host_id']
   end
 

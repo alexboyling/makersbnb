@@ -24,7 +24,7 @@ class Makersbnb < Sinatra::Base
   get '/property/new' do 
     @user = User.find(id: session[:user_id])
     @property = Property 
-    erb:'property/new' 
+    erb :'property/new' 
   end
 
   post '/property/new' do 
@@ -45,7 +45,14 @@ class Makersbnb < Sinatra::Base
 
   post '/property/:id' do
     property = Property.find(id: params[:id])
-    Booking.create(host_id: property.host_id, guest_id: session[:user_id], property_id: params[:id], start_date: params['start_date'], end_date: params['end_date'], booking_status: 'pending')
+    Booking.create(
+      host_id: property.host_id,
+      guest_id: session[:user_id],
+      property_id: params[:id],
+      start_date: params['start_date'],
+      end_date: params['end_date'],
+      booking_status: 'pending'
+    )
     redirect '/'
   end
 

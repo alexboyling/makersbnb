@@ -42,10 +42,20 @@ describe Property do
 
   describe '.all' do
     it 'returns creates an array of properties using the data stored in the db' do
-      property = Property.create(name: 'irrelevant', description: 'nice home', location: 'address', price: 12.50,
-                                 host_id: user.id)
-      property2 = Property.create(name: 'irrelevant 2', description: 'great home', location: 'carnaby street',
-                                  price: 140.50, host_id: user2.id)
+      property = Property.create(
+        name: 'irrelevant',
+        description: 'nice home', 
+        location: 'address',
+        price: 12.50,
+        host_id: user.id
+      )
+      property2 = Property.create(
+        name: 'irrelevant 2',
+        description: 'great home',
+        location: 'carnaby street',
+        price: 140.50,
+        host_id: user2.id
+      )
       property_list = Property.all
 
       persisted_data = persisted_data(table: 'properties', id: property.id)
@@ -60,10 +70,20 @@ describe Property do
 
   describe '.update' do
     it 'updates an existing property' do
-      property = Property.create(name: 'irrelevant', description: 'nice home', location: 'address', price: 12.50,
-                                 host_id: user.id)
-      updated_property = Property.update(id: property.id, name: 'important', description: 'nice home',
-                                         location: 'address2', price: 140.50)
+      property = Property.create(
+        name: 'irrelevant',
+        description: 'nice home',
+        location: 'address',
+        price: 12.50,
+        host_id: user.id
+      )
+      updated_property = Property.update(
+        id: property.id,
+        name: 'important',
+        description: 'nice home',
+        location: 'address2',
+        price: 140.50
+      )
       expect(updated_property).to be_a Property
       expect(updated_property.id).to eq property.id
       expect(updated_property.price).to eq '$140.50'
@@ -72,8 +92,13 @@ describe Property do
 
   describe '.find' do
     it 'returns a requested property object' do
-      property = Property.create(name: 'irrelevant', description: 'nice home', location: 'address', price: 12.50,
-                                 host_id: user.id)
+      property = Property.create(
+        name: 'irrelevant',
+        description: 'nice home',
+        location: 'address',
+        price: 12.50,
+        host_id: user.id
+      )
       result = Property.find(id: property.id)
 
       expect(result).to be_a Property
@@ -84,10 +109,20 @@ describe Property do
 
   describe '.where' do
     it 'returns an array of properties belonging to a specified user' do
-      property = Property.create(name: 'irrelevant', description: 'nice home', location: 'address', price: 12.50,
-                                 host_id: user.id)
-      property3 = Property.create(name:'irrelevant 3', description: 'even nicer home', location: 'london bridge', price: 135,
-                                  host_id: user.id)
+      property = Property.create(
+        name: 'irrelevant',
+        description: 'nice home',
+        location: 'address',
+        price: 12.50,
+        host_id: user.id
+      )
+      property3 = Property.create(
+        name: 'irrelevant 3',
+        description: 'even nicer home',
+        location: 'london bridge',
+        price: 135,
+        host_id: user.id
+      )
       result = Property.where(host_id: user.id)
 
       expect(result).to be_a Array
