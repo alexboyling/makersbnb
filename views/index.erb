@@ -27,19 +27,21 @@
       </ul>
     <% end %>
   </div>
-
+  <form action="/property/new">
+    <button type="submit">Create a listing</button>
+  </form>
 <%# more header items %>
 </header>
-
-<form action="/newlisting">
-  <button type="submit">Create a listing</button>
-</form>
+  
 
 <%@properties.each do |property| %>
-  <li style="list-style-type:none;"">
+  <li class="property" id= "property-<%= property.id %>">
     <%= property.name %><br>
     Location: <%= property.location %><br>
     Description: <%= property.description %><br>
     Price per night: <%= property.price %><br>
+    <form action="/property/<%= property.id %>/request-to-book">
+      <input type="submit" value="Book">
+    </form>
   </li><br>
 <% end %>

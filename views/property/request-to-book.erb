@@ -1,0 +1,25 @@
+
+<% "#{@property.name} and the description: #{@property.description}" %>
+<% if @user %>
+    <form action="/property/<%= @property.id %>" method="post">
+      <label for="start_date">Start Date</label>
+      <input type="date" name="start_date">
+      <label for="end_date">End Date</label>
+      <input type="date" name="end_date">
+      <input type="submit" value="Request to Book">
+    </form>
+<% else %>
+  "Please sign up or log in to book"
+  <ul >
+    <li>
+      <form action="/sessions/login">
+        <input type="submit" value="Log In">
+      </form>
+    </li>
+    <li>
+      <form action="/users/sign_up">
+        <input type="submit" value="Sign Up">
+      </form>
+    </li>
+  </ul>
+<% end %>
