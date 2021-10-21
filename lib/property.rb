@@ -22,8 +22,20 @@ class Property
     )
   end
 
-  def self.all
-    result = DatabaseConnection.query('SELECT * FROM properties')
+  def self.all_available(start_date= nil, end_date= nil)
+    start_date ||= DateTime.now.to_date
+    end_date ||= "5001-01-01"
+    result = DatabaseConnection.query("
+    SELECT DISTINCT properties.id, location, price_per_night, properties.host_id, properties.name, description 
+    FROM properties
+    LEFT JOIN bookings on properties.id = bookings.property_id
+
+    WHERE booking_status != 'confirmed' 
+    AND $1 <= end_date AND start_date >= $2
+    OR bookings.id is NULL
+
+    ", 
+    [start_date, end_date])
     result.map do |properties|
       Property.new(
         name: properties['name'],
@@ -87,7 +99,6 @@ class Property
     @location = location
     @price = price
     @host_id = host_id
-    @dates_booked = [] # Created an empty array to store dates
   end
 
   def bookings(booking_class = Booking)
