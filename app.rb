@@ -106,4 +106,9 @@ class Makersbnb < Sinatra::Base
     redirect('/requests')
   end
 
+  post '/requests/:id/deny' do
+    Booking.deny(id: params[:id])
+    redirect('/requests')
+  end
+
 end

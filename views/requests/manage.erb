@@ -2,14 +2,16 @@
 
 From: <%= @booking.requester %><br>
 Date: <%= @booking.start_date %><br>
-<br>
-<form action="/requests/<%= @booking.id %>/confirm" method="post">
+Status: <%= @booking.booking_status %><br>
+<% if @booking.booking_status == 'pending' %>
+  <br>
+  <form action="/requests/<%= @booking.id %>/confirm" method="post">
   <input value="Confirm" type="submit">
-</form>
-<form>
-<input value="Deny" type="submit">
-</form>
-
+  </form>
+  <form action="/requests/<%= @booking.id %>/deny" method="post">
+  <input value="Deny" type="submit">
+  </form>
+<% end %>
 
 <h2>Other requests for this space</h2>
 
