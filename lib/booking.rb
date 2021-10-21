@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 class Booking
-  def self.create(guest_id:, property_id:, start_date:, end_date:, booking_status:)
+  def self.create(host_id:, guest_id:, property_id:, start_date:, end_date:, booking_status:)
     result = DatabaseConnection.query(
-      "INSERT INTO bookings (guest_id, property_id, start_date, end_date, booking_status) 
-      VALUES ($1, $2, $3, $4, $5) 
-      RETURNING id, guest_id, property_id, start_date, end_date, booking_status;",
-      [guest_id, property_id, start_date, end_date, booking_status]
+      "INSERT INTO bookings (host_id, guest_id, property_id, start_date, end_date, booking_status) 
+      VALUES ($1, $2, $3, $4, $5, $6) 
+      RETURNING id, host_id, guest_id, property_id, start_date, end_date, booking_status;",
+      [host_id, guest_id, property_id, start_date, end_date, booking_status]
     )
     Booking.new(
       id: result.first['id'],
+      host_id: result.first['host_id'],
       guest_id: result.first['guest_id'],
       property_id: result.first['property_id'],
       start_date: result.first['start_date'],
@@ -22,6 +23,7 @@ class Booking
     result = DatabaseConnection.query("SELECT * FROM bookings WHERE id = $1", [id])
     Booking.new(
       id: result.first['id'],
+      host_id: result.first['host_id'],
       guest_id: result.first['guest_id'],
       property_id: result.first['property_id'],
       start_date: result.first['start_date'],
@@ -35,6 +37,7 @@ class Booking
     result.map do |booking|
       Booking.new(
         id: booking['id'],
+        host_id: result.first['host_id'],
         guest_id: booking['guest_id'],
         property_id: booking['property_id'],
         start_date: booking['start_date'],
@@ -49,6 +52,7 @@ class Booking
     result.map do |booking|
       Booking.new(
         id: booking['id'],
+        host_id: result.first['host_id'],
         guest_id: booking['guest_id'],
         property_id: booking['property_id'],
         start_date: booking['start_date'],
@@ -69,11 +73,12 @@ class Booking
   def self.confirm(id:)
     result = DatabaseConnection.query(
       "UPDATE bookings SET booking_status = 'confirmed' WHERE id = $1
-      RETURNING id, guest_id, property_id, start_date, end_date, booking_status;",
+      RETURNING id, host_id, guest_id, property_id, start_date, end_date, booking_status;",
       [id]
     )
     Booking.new(
       id: result.first['id'],
+      host_id: result.first['host_id'],
       guest_id: result.first['guest_id'],
       property_id: result.first['property_id'],
       start_date: result.first['start_date'],
@@ -85,11 +90,12 @@ class Booking
   def self.deny(id:)
     result = DatabaseConnection.query(
       "UPDATE bookings SET booking_status = 'denied' WHERE id = $1
-      RETURNING id, guest_id, property_id, start_date, end_date, booking_status;",
+      RETURNING id, host_id, guest_id, property_id, start_date, end_date, booking_status;",
       [id]
     )
     Booking.new(
       id: result.first['id'],
+      host_id: result.first['host_id'],
       guest_id: result.first['guest_id'],
       property_id: result.first['property_id'],
       start_date: result.first['start_date'],
@@ -98,10 +104,11 @@ class Booking
     )
   end
 
-  attr_reader :id, :guest_id, :property_id, :start_date, :end_date, :booking_status
+  attr_reader :id, :host_id, :guest_id, :property_id, :start_date, :end_date, :booking_status
 
-  def initialize(id:, guest_id:, property_id:, start_date:, end_date:, booking_status:)
+  def initialize(id:, host_id:, guest_id:, property_id:, start_date:, end_date:, booking_status:)
     @id = id
+    @host_id = host_id
     @guest_id = guest_id
     @property_id = property_id
     @start_date = start_date
@@ -110,18 +117,18 @@ class Booking
   end
 
   def property_name
-    name = DatabaseConnection.query("SELECT name FROM properties WHERE id = $1", [self.property_id])
+    name = DatabaseConnection.query("SELECT name FROM properties WHERE id = $1", [property_id])
     name.first['name']
   end
 
   def requester
-    name = DatabaseConnection.query("SELECT name FROM users WHERE id = $1", [self.guest_id])
+    name = DatabaseConnection.query("SELECT name FROM users WHERE id = $1", [guest_id])
     name.first['name']
   end
 
   def host
-    name = DatabaseConnection.query("SELECT owner_id FROM properties WHERE id = $1", [self.property_id])
-    name.first['owner_id']
+    name = DatabaseConnection.query("SELECT host_id FROM properties WHERE id = $1", [property_id])
+    name.first['host_id']
   end
 
 end
