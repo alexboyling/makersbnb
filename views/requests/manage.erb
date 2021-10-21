@@ -3,8 +3,8 @@
 From: <%= @booking.requester %><br>
 Date: <%= @booking.start_date %><br>
 <br>
-<form>
-<input value="Confirm" type="submit">
+<form action="/requests/<%= @booking.id %>/confirm" method="post">
+  <input value="Confirm" type="submit">
 </form>
 <form>
 <input value="Deny" type="submit">
