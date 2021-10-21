@@ -37,6 +37,7 @@ font-size: 14px;
 border-left-color: transparent;
 border-bottom-color: transparent;
 border-top: none;
+
 }
 
 .main-nav li:last-child {
@@ -44,7 +45,7 @@ border-right-color: transparent;
 }
 
 .main-nav li:hover {
-background-color: #F5F5F5;
+background-color: #b1ff65;
 cursor: pointer;
 }
 
@@ -77,18 +78,42 @@ border-radius: none;
 background-color: tranparent;
 }
 
+.body { 
+  padding-top: 65px; 
+}
+
+input:focus {
+  background-color: lightblue;
+}
+
 .sign-up-box{
   display: block;
   margin: 10px auto 0 auto;
+  margin-top: 80px;
   width: 25%;
   padding: 10px;
   border: 1px solid #C4C4C4;
   border-radius: 10px;
 }
 
+.sign-up-label{
+  margin-top: 80px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 16em;
+}
+
+.sign-up-names{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .sign-up-box input {
   display: block;
 }
+
 
 .padding {
   margin: 10px auto;
@@ -104,3 +129,33 @@ background-color: tranparent;
   width: 25%;
   border: 2px solid #C4C4C4;
 }
+
+
+.property-container{
+  margin-top: 62px;
+}
+
+.property{
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: #C4C4C4;
+  width: 50%;
+}
+
+.create-listing{
+  margin-top: 120px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 16em;
+}
+
+.log-in{
+  margin-top: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+}
+

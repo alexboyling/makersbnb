@@ -14,7 +14,7 @@
       </li>
       <li>
         <form action="/sessions/destroy" method="post">
-          <input type="submit" value="Log Out" />
+          <input type="submit" value="Log Out">
         </form>
       </li>
     <% else %>
@@ -32,15 +32,21 @@
       </ul>
     <% end %>
   </div>
+  <div class='main-nav'>
+  <li>
   <form action="/property/new">
-    <button type="submit">Create a listing</button>
+    <input type="submit" value="Create a listing" />
   </form>
+  </li>
+  </div>
+  
 <%# more header items %>
 </header>
-  
 
+<div class="property-container">
 <%@properties.each do |property| %>
-  <li class="property" id= "property-<%= property.id %>">
+<div class="property">
+  <li id= "property-<%= property.id %>" style="list-style-type:none">
     <%= property.name %><br>
     Location: <%= property.location %><br>
     Description: <%= property.description %><br>
@@ -49,4 +55,6 @@
       <input type="submit" value="Book">
     </form>
   </li><br>
+</div>
 <% end %>
+</div>

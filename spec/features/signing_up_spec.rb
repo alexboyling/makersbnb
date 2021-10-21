@@ -10,7 +10,7 @@ feature 'Registration' do
     fill_in('name', with: 'Jane')
     fill_in('email', with: 'test_email@example.com')
     fill_in('password', with: 'password123')
-    click_button 'Submit'
+    click_button 'Sign up'
 
     expect(page).to have_content('Jane')
     expect(page).to_not have_button('Sign Up')
