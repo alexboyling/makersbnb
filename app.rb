@@ -8,8 +8,6 @@ require './lib/user'
 require './lib/property'
 require './lib/booking'
 
-
-
 class Makersbnb < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
@@ -80,4 +78,18 @@ class Makersbnb < Sinatra::Base
     flash[:notice] = 'You have signed out.'
     redirect('/')
   end
+
+  get '/requests' do
+    @user = User.find(id: session[:user_id])
+    @guest_requests = Booking.find_by_guest(guest_id: session[:user_id])
+    @properties = Property.where(user_id: session[:user_id])
+    erb :'requests/index'
+  end
+
+  get '/requests/:id' do
+    @user = User.find(id: session[:user_id])
+    @booking = Booking.find(id: params['id'])
+    erb :'requests/manage'
+  end
+
 end

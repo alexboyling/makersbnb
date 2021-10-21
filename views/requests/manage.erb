@@ -1,0 +1,16 @@
+<h2>Request for <%= @booking.property_name %></h2>
+
+From: <%= @booking.requester %><br>
+Date: <%= @booking.start_date %><br>
+<br>
+<form>
+<input value="Confirm" type="submit">
+</form>
+<form>
+<input value="Deny" type="submit">
+</form>
+
+
+<h2>Other requests for this space</h2>
+
+Host: <%= @booking.host %>
