@@ -139,6 +139,8 @@ describe Booking do
       expect(confirmed_booking).to be_a Booking
       expect(confirmed_booking.id).to eq booking.id
       expect(confirmed_booking.booking_status).to eq 'confirmed'
+      
+      other_booking = Booking.find(id: other_booking.id)
       expect(other_booking).to be_a Booking
       expect(other_booking.id).to eq other_booking.id
       expect(other_booking.booking_status).to eq 'denied'

@@ -112,11 +112,26 @@ class Booking
     end
   end
 
+  # def self.overlaps(booking1, booking2)
+  #   p booking1.start_date, booking1.end_date, booking2.start_date, booking2.end_date
+  #   DatabaseConnection.query(
+  #     "SELECT (DATE $1, DATE $2) OVERLAPS (DATE $3, DATE $4)",
+  #   [booking1.start_date, booking1.end_date, booking2.start_date, booking2.end_date]
+  #   )
+  # end
+
   def self.overlaps(booking1, booking2)
-    p booking1.start_date, booking1.end_date, booking2.start_date, booking2.end_date
     DatabaseConnection.query(
-      "SELECT (DATE $1, DATE $2) OVERLAPS (DATE $3, DATE $4)",
-    [booking1.start_date, booking1.end_date, booking2.start_date, booking2.end_date]
+      "SELECT (
+        (SELECT start_date from bookings where id = $1),
+        (SELECT end_date from bookings where id = $1)
+        )
+        OVERLAPS
+        (
+        (SELECT start_date from bookings where id = $2),
+        (SELECT end_date from bookings where id = $2)
+        )",
+    [booking1.id, booking2.id]
     )
   end
 
