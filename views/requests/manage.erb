@@ -2,15 +2,30 @@
 
 From: <%= @booking.requester %><br>
 Date: <%= @booking.start_date %><br>
-<br>
-<form>
-<input value="Confirm" type="submit">
-</form>
-<form>
-<input value="Deny" type="submit">
-</form>
-
+Status: <%= @booking.booking_status %><br>
+<% if @booking.booking_status == 'pending' %>
+  <br>
+  <form action="/requests/<%= @booking.id %>/confirm" method="post">
+  <input value="Confirm" type="submit">
+  </form>
+  <form action="/requests/<%= @booking.id %>/deny" method="post">
+  <input value="Deny" type="submit">
+  </form>
+<% end %>
 
 <h2>Other requests for this space</h2>
 
-Host: <%= @booking.host %>
+<ul>
+  <% @other_bookings.each do |booking| %>
+    <% if @booking.id == booking.id %>
+      <%# Don't show the booking %>
+    <% else %>
+      <li>
+        <a href="/requests/<%= booking.id %>">
+          <%= booking.start_date %> to <%= booking.end_date %><br>
+          <%= booking.booking_status %>
+        </a>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

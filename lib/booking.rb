@@ -37,7 +37,7 @@ class Booking
     result.map do |booking|
       Booking.new(
         id: booking['id'],
-        host_id: result.first['host_id'],
+        host_id: booking['host_id'],
         guest_id: booking['guest_id'],
         property_id: booking['property_id'],
         start_date: booking['start_date'],
@@ -52,7 +52,7 @@ class Booking
     result.map do |booking|
       Booking.new(
         id: booking['id'],
-        host_id: result.first['host_id'],
+        host_id: booking['host_id'],
         guest_id: booking['guest_id'],
         property_id: booking['property_id'],
         start_date: booking['start_date'],
