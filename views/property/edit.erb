@@ -1,0 +1,104 @@
+<head>
+  <meta charset="utf-8">
+  <title>Edit your listing</title>
+  <link rel="stylesheet" type="text/css" href="/app.css">
+</head>
+
+<header>
+  <div class="main-nav">
+    <% if @user %>
+      <li><%= "#{@user.name}: #{@user.email} "%></li>
+      <li>
+          <form action="/requests">
+            <input type="submit" value="Requests">
+          </form>
+      </li>
+      <li>
+        <form action="/sessions/destroy" method="post">
+          <input type="submit" value="Log Out">
+        </form>
+      </li>
+        <li>
+        <form action="/property/new">
+          <input type="submit" value="Create a listing" />
+        </form>
+        </li>
+        <li>
+          <form action="/property/portfolio">
+            <input type="submit" value="View portfolio" />
+          </form>
+          </li>
+          <li>
+            <form action="/">
+              <input type="submit" value="Home" />
+            </form>
+          </li>
+    <% else %>
+      <ul >
+        <li>
+          <form action="/sessions/login">
+            <input type="submit" value="Log In">
+          </form>
+        </li>
+        <li>
+          <form action="/users/sign_up">
+            <input type="submit" value="Sign Up">
+          </form>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+  
+<%# more header items %>
+</header>
+
+<h1 class="create-listing">Set a period of unavailability</h1>
+
+<div>
+<% if @user %>
+    <form action="/property/portfolio/<%= @property.id %>/edit" method="post" class="edit-listing">
+      <div>
+      <label for="start_date">Start Date</label>
+      <input type="date" name="start_date" value="<%=DateTime.now.to_date - 2%>">
+      <label for="end_date">End Date</label>
+      <input type="date" name="end_date" value="<%=DateTime.now.to_date - 1%>">
+     </div><br>
+    <h1>Edit your listing</h1><br>
+      <div>
+        <input type="text" name="name" value="<%=@property.name%>">
+      </div><br>
+
+      <div>
+        <input type="text" name="description" value="<%=@property.description%>">
+      </div><br>
+
+      <div>
+        <input type="text" name="location" value="<%=@property.location%>">
+      </div><br>
+      
+      <div>
+        <input name="price" id="rangeInput" value=100 type="range" min="35" max="200" oninput="amount.value=rangeInput.value" />
+        <input id="amount" type="number" value=100 min="35" max="200" oninput="rangeInput.value=amount.value" />
+        Dollars
+      </div>
+      <br>
+      <div>
+      <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div class="edit-listing">
+<% else %>
+  "Please sign up or log in to book"
+  <ul >
+    <li>
+      <form action="/sessions/login">
+        <input type="submit" value="Log In">
+      </form>
+    </li>
+    <li>
+      <form action="/users/sign_up">
+        <input type="submit" value="Sign Up">
+      </form>
+    </li>
+  </ul>
+<% end %>
