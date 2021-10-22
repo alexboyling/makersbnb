@@ -71,37 +71,59 @@ class Booking
   end
 
   def self.confirm(id:)
-    result = DatabaseConnection.query(
+    DatabaseConnection.query(
       "UPDATE bookings SET booking_status = 'confirmed' WHERE id = $1
       RETURNING id, host_id, guest_id, property_id, start_date, end_date, booking_status;",
       [id]
     )
-    Booking.new(
-      id: result.first['id'],
-      host_id: result.first['host_id'],
-      guest_id: result.first['guest_id'],
-      property_id: result.first['property_id'],
-      start_date: result.first['start_date'],
-      end_date: result.first['end_date'],
-      booking_status: result.first['booking_status']
-    )
+    deny_other_bookings(Booking.find(id: id))
   end
 
   def self.deny(id:)
-    result = DatabaseConnection.query(
+    DatabaseConnection.query(
       "UPDATE bookings SET booking_status = 'denied' WHERE id = $1
       RETURNING id, host_id, guest_id, property_id, start_date, end_date, booking_status;",
       [id]
     )
-    Booking.new(
-      id: result.first['id'],
-      host_id: result.first['host_id'],
-      guest_id: result.first['guest_id'],
-      property_id: result.first['property_id'],
-      start_date: result.first['start_date'],
-      end_date: result.first['end_date'],
-      booking_status: result.first['booking_status']
+  end
+
+  def self.deny_other_bookings(confirmed_booking)
+    result = DatabaseConnection.query(
+      "SELECT * FROM bookings WHERE property_id = $1 AND booking_status = $2",
+      [confirmed_booking.property_id, 'pending']
     )
+    other_bookings = result.map do |booking|
+      Booking.new(
+        id: booking['id'],
+        host_id: booking['host_id'],
+        guest_id: booking['guest_id'],
+        property_id: booking['property_id'],
+        start_date: booking['start_date'],
+        end_date: booking['end_date'],
+        booking_status: booking['booking_status']
+      )
+    end
+    other_bookings.each do |booking|
+      if overlaps(confirmed_booking, booking) == true
+        deny(id: booking.id)
+      end
+    end
+  end
+
+  def self.overlaps(booking1, booking2)
+    result = DatabaseConnection.query(
+      "SELECT (
+        (SELECT start_date from bookings where id = $1),
+        (SELECT end_date from bookings where id = $1)
+        )
+        OVERLAPS
+        (
+        (SELECT start_date from bookings where id = $2),
+        (SELECT end_date from bookings where id = $2)
+        )",
+    [booking1.id, booking2.id]
+    )
+    result.first['overlaps'] == 't'
   end
 
   attr_reader :id, :host_id, :guest_id, :property_id, :start_date, :end_date, :booking_status
