@@ -7,6 +7,8 @@ describe Booking do
   let(:property) { Property.create(name: 'Property 1', description: 'nice home', location: 'address', price: 50.00, host_id: user.id) }
   let(:property2) { Property.create(name: 'Property 2', description: 'nice home', location: 'address', price: 100.00, host_id: user.id) }
   let(:booking) { Booking.create(host_id: property.host_id, guest_id: user.id, property_id: property.id, start_date: '2021-10-01', end_date: '2021-10-08', booking_status: 'pending') }
+  let(:booking2) { Booking.create(host_id: property.host_id, guest_id: user2.id, property_id: property.id, start_date: '2021-10-01', end_date: '2021-10-08', booking_status: 'pending') }
+
 
   describe '.create' do
     it 'creates a new booking' do
@@ -105,17 +107,48 @@ describe Booking do
 
   describe '.confirm' do
     it 'updates the booking status to confirmed' do
-      confirmed_booking = Booking.confirm(id: booking.id)
+      Booking.confirm(id: booking.id)
+      confirmed_booking = Booking.find(id: booking.id)
 
       expect(confirmed_booking).to be_a Booking
       expect(confirmed_booking.id).to eq booking.id
       expect(confirmed_booking.booking_status).to eq 'confirmed'
     end
+    it 'denies other bookings that have overlapping dates' do
+      # create booking 1
+      booking = Booking.create(
+        host_id: property.host_id,
+        guest_id: user.id,
+        property_id: property.id,
+        start_date: '2021-10-01',
+        end_date: '2021-10-08',
+        booking_status: 'pending'
+      )
+      # create booking 2
+      other_booking = Booking.create(
+        host_id: property.host_id,
+        guest_id: user2.id,
+        property_id: property.id,
+        start_date: '2021-10-01',
+        end_date: '2021-10-08',
+        booking_status: 'pending'
+      )
+      Booking.confirm(id: booking.id)
+      confirmed_booking = Booking.find(id: booking.id)
+
+      expect(confirmed_booking).to be_a Booking
+      expect(confirmed_booking.id).to eq booking.id
+      expect(confirmed_booking.booking_status).to eq 'confirmed'
+      expect(other_booking).to be_a Booking
+      expect(other_booking.id).to eq other_booking.id
+      expect(other_booking.booking_status).to eq 'denied'
+    end
   end
 
   describe '.deny' do
     it 'updates the booking status to denied' do
-      denied_booking = Booking.deny(id: booking.id)
+      Booking.deny(id: booking.id)
+      denied_booking = Booking.find(id: booking.id)
 
       expect(denied_booking).to be_a Booking
       expect(denied_booking.id).to eq booking.id
