@@ -1,0 +1,32 @@
+<head>
+  <meta charset="utf-8">
+  <title>View portfolio</title>
+  <link rel="stylesheet" type="text/css" href="/app.css">
+</head>
+
+<header>
+  
+  <div class="main-nav">
+    <li>
+  <form action="/">
+    <input type="submit" value="Home" />
+  </form>
+  </div>
+</li>
+</header>
+
+<div class="property-container">
+<%@properties.each do |property| %>
+<div class="property">
+  <li id= "property-<%= property.id %>" style="list-style-type:none">
+    <%= property.name %><br>
+    Location: <%= property.location %><br>
+    Description: <%= property.description %><br>
+    Price per night: <%= property.price %><br>
+    <form action="/property/portfolio/<%= property.id %>/edit">
+      <input type="submit" value="Edit">
+    </form>
+  </li><br>
+</div>
+<% end %>
+</div>

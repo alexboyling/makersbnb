@@ -17,6 +17,16 @@
           <input type="submit" value="Log Out">
         </form>
       </li>
+        <li>
+        <form action="/property/new">
+          <input type="submit" value="Create a listing" />
+        </form>
+        </li>
+        <li>
+          <form action="/property/portfolio">
+            <input type="submit" value="View portfolio" />
+          </form>
+          </li>
     <% else %>
       <ul >
         <li>
@@ -31,13 +41,6 @@
         </li>
       </ul>
     <% end %>
-  </div>
-  <div class='main-nav'>
-  <li>
-  <form action="/property/new">
-    <input type="submit" value="Create a listing" />
-  </form>
-  </li>
   </div>
   
 <%# more header items %>

@@ -34,8 +34,42 @@ class Makersbnb < Sinatra::Base
     location: params[:location],
     price: params[:price],
     host_id: session[:user_id])
-    redirect('/')
+    redirect('/property/portfolio')
   end 
+
+  get '/property/portfolio' do 
+    @user = User.find(id: session[:user_id])
+    @properties = Property.where(host_id: session[:user_id])
+    erb:'property/portfolio'
+  end 
+
+  get '/property/portfolio/:id/edit' do 
+    @user = User.find(id: session[:user_id])
+    @property = Property.find(id: params[:id])
+    erb:'property/edit'
+  end 
+
+  post '/property/portfolio/:id/edit' do 
+    @user = User.find(id: session[:user_id])
+    @property = Property.find(id: params[:id])
+    Property.update(
+      name: params[:name],
+      description: params[:description],
+      location: params[:location],
+      price: params[:price],
+      id: params[:id]
+    )
+    Booking.create(
+      host_id: session[:user_id],
+      guest_id: session[:user_id],
+      property_id: params[:id],
+      start_date: params[:start_date],
+      end_date: params[:end_date],
+      booking_status: 'confirmed'
+    )
+    redirect('/property/portfolio')
+  end 
+
 
   get '/property/:id/request-to-book' do
     @user = User.find(id: session[:user_id])

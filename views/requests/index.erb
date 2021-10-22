@@ -1,17 +1,72 @@
+<head>
+  <meta charset="utf-8">
+  <title>Request manager</title>
+  <link rel="stylesheet" type="text/css" href="/app.css">
+</head>
+<header>
+  <div class="main-nav">
+    <% if @user %>
+      <li><%= "#{@user.name}: #{@user.email} "%></li>
+      <li>
+        <form action="/sessions/destroy" method="post">
+          <input type="submit" value="Log Out">
+        </form>
+      </li>
+        <li>
+        <form action="/property/new">
+          <input type="submit" value="Create a listing" />
+        </form>
+        </li>
+        <li>
+          <form action="/property/portfolio">
+            <input type="submit" value="View portfolio" />
+          </form>
+          </li>
+          <li>
+            <form action="/">
+              <input type="submit" value="Home" />
+            </form>
+          </li>
+    <% else %>
+      <ul >
+        <li>
+          <form action="/sessions/login">
+            <input type="submit" value="Log In">
+          </form>
+        </li>
+        <li>
+          <form action="/users/sign_up">
+            <input type="submit" value="Sign Up">
+          </form>
+        </li>
+        <li>
+          <form action="/">
+            <input type="submit" value="Home" />
+          </form>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+<div class="create-listing">
 <h2>Requests I've made</h2>
 <ul>
   <% @guest_requests.each do |request| %>
+    <% break if request.host_id == request.guest_id %>
     <li><%= request.property_name %><br>
         <%= request.start_date %> to <%= request.end_date %><br>
         <%= request.booking_status %>
     </li>
   <% end %>
 </ul>
+</div>
+<div class="create-listing">
 <h2>Requests I've received</h2>
+<div>My Properties:</div>
 <ul>
   <% @properties.each do |property| %>
     <h3><%= property.name %>, <%= property.location %></h3>
       <% property.bookings.each do |booking| %>
+        <% break if booking.host_id == booking.guest_id %>
         <li>
           <a href="/requests/<%= booking.id %>">
             <%= booking.start_date %> to <%= booking.end_date %><br>
@@ -21,3 +76,4 @@
       <% end %>
   <% end %>
 </ul>
+</div>
