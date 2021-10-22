@@ -145,6 +145,37 @@ describe Booking do
       expect(other_booking.id).to eq other_booking.id
       expect(other_booking.booking_status).to eq 'denied'
     end
+    it 'does not update bookings that do not overlap' do
+      # create booking 1
+      booking = Booking.create(
+        host_id: property.host_id,
+        guest_id: user.id,
+        property_id: property.id,
+        start_date: '2021-10-01',
+        end_date: '2021-10-08',
+        booking_status: 'pending'
+      )
+      # create booking 2
+      other_booking = Booking.create(
+        host_id: property.host_id,
+        guest_id: user2.id,
+        property_id: property.id,
+        start_date: '2021-10-09',
+        end_date: '2021-10-16',
+        booking_status: 'pending'
+      )
+      Booking.confirm(id: booking.id)
+      confirmed_booking = Booking.find(id: booking.id)
+
+      expect(confirmed_booking).to be_a Booking
+      expect(confirmed_booking.id).to eq booking.id
+      expect(confirmed_booking.booking_status).to eq 'confirmed'
+      
+      other_booking = Booking.find(id: other_booking.id)
+      expect(other_booking).to be_a Booking
+      expect(other_booking.id).to eq other_booking.id
+      expect(other_booking.booking_status).to eq 'pending'
+    end
   end
 
   describe '.deny' do

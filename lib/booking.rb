@@ -88,7 +88,6 @@ class Booking
   end
 
   def self.deny_other_bookings(confirmed_booking)
-    # get all other pending bookings for that property
     result = DatabaseConnection.query(
       "SELECT * FROM bookings WHERE property_id = $1 AND booking_status = $2",
       [confirmed_booking.property_id, 'pending']
@@ -104,24 +103,15 @@ class Booking
         booking_status: booking['booking_status']
       )
     end
-    p other_bookings
     other_bookings.each do |booking|
-      if overlaps(confirmed_booking, booking)
+      if overlaps(confirmed_booking, booking) == true
         deny(id: booking.id)
       end
     end
   end
 
-  # def self.overlaps(booking1, booking2)
-  #   p booking1.start_date, booking1.end_date, booking2.start_date, booking2.end_date
-  #   DatabaseConnection.query(
-  #     "SELECT (DATE $1, DATE $2) OVERLAPS (DATE $3, DATE $4)",
-  #   [booking1.start_date, booking1.end_date, booking2.start_date, booking2.end_date]
-  #   )
-  # end
-
   def self.overlaps(booking1, booking2)
-    DatabaseConnection.query(
+    result = DatabaseConnection.query(
       "SELECT (
         (SELECT start_date from bookings where id = $1),
         (SELECT end_date from bookings where id = $1)
@@ -133,6 +123,7 @@ class Booking
         )",
     [booking1.id, booking2.id]
     )
+    result.first['overlaps'] == 't'
   end
 
   attr_reader :id, :host_id, :guest_id, :property_id, :start_date, :end_date, :booking_status
