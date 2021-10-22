@@ -59,22 +59,21 @@
     <form action="/property/portfolio/<%= @property.id %>/edit" method="post" class="edit-listing">
       <div>
       <label for="start_date">Start Date</label>
-      <input type="date" name="start_date">
+      <input type="date" name="start_date" value="<%=DateTime.now.to_date - 2%>">
       <label for="end_date">End Date</label>
-      <input type="date" name="end_date">
+      <input type="date" name="end_date" value="<%=DateTime.now.to_date - 1%>">
      </div><br>
-      <!-- <input type="submit" value="Request to Book"> -->
     <h1>Edit your listing</h1><br>
       <div>
-        <input type="text" name="name" placeholder="<%=@property.name%>">
+        <input type="text" name="name" value="<%=@property.name%>">
       </div><br>
 
       <div>
-        <input type="text" name="description" placeholder="<%=@property.description%>">
+        <input type="text" name="description" value="<%=@property.description%>">
       </div><br>
 
       <div>
-        <input type="text" name="location" placeholder="<%=@property.location%>">
+        <input type="text" name="location" value="<%=@property.location%>">
       </div><br>
       
       <div>
