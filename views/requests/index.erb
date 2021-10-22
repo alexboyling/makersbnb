@@ -47,33 +47,44 @@
       </ul>
     <% end %>
   </div>
+
+
 <div class="create-listing">
-<h2>Requests I've made</h2>
-<ul>
-  <% @guest_requests.each do |request| %>
-    <% break if request.host_id == request.guest_id %>
-    <li><%= request.property_name %><br>
-        <%= request.start_date %> to <%= request.end_date %><br>
-        <%= request.booking_status %>
-    </li>
-  <% end %>
-</ul>
-</div>
-<div class="create-listing">
-<h2>Requests I've received</h2>
-<div>My Properties:</div>
-<ul>
-  <% @properties.each do |property| %>
-    <h3><%= property.name %>, <%= property.location %></h3>
-      <% property.bookings.each do |booking| %>
-        <% break if booking.host_id == booking.guest_id %>
-        <li>
-          <a href="/requests/<%= booking.id %>">
-            <%= booking.start_date %> to <%= booking.end_date %><br>
-            <%= booking.booking_status %>
-          </a>
+  <% if @user %>
+    <h2>Requests I've made</h2>
+    <ul>
+      <% @guest_requests.each do |request| %>
+        <% break if request.host_id == request.guest_id %>
+        <li><%= request.property_name %><br>
+            <%= request.start_date %> to <%= request.end_date %><br>
+            <%= request.booking_status %>
         </li>
       <% end %>
+    </ul>
+    </div>
+    <div class="edit-listing">
+    <h2>Requests I've received</h2>
+    <div>My Properties:</div>
+    <ul>
+      <% @properties.each do |property| %>
+        <h3><%= property.name %>, <%= property.location %></h3>
+          <% property.bookings.each do |booking| %>
+            <% break if booking.host_id == booking.guest_id %>
+            <li>
+              <a href="/requests/<%= booking.id %>">
+                <%= booking.start_date %> to <%= booking.end_date %><br>
+                <%= booking.booking_status %>
+              </a>
+            </li>
+          <% end %>
+      <% end %>
+    </ul>
+    <% else %>
+
+    <%= flash[:notice] %>
+
+    <div class="log-in">
+    Please sign up or log in to book
   <% end %>
-</ul>
+</div>
 </div>
