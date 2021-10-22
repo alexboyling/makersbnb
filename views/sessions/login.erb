@@ -1,8 +1,28 @@
-<h2>
+<head>
+  <meta charset="utf-8">
+  <title>Sign Up to makersbnb</title>
+  <link rel="stylesheet" type="text/css" href="/app.css">
+</head>
+
+
+<header>
+  
+  <div class="main-nav">
+    <li>
+  <form action="/">
+    <input type="submit" value="Home" />
+  </form>
+  </div>
+</li>
+</header>
+<body>
    <%= flash[:notice] %>
- </h2>
-<form action="/sessions" method="post">
-  <input type="email" name="email" placeholder="email" />
-  <input type="password" name="password" placeholder="password"/>
-  <input type="submit" value="Sign in" />
+
+<form action="/sessions" method="post" class="log-in">
+  <div> Please log in </div>
+  <input type="email" name="email" placeholder="email"/>
+  <input type="password" name="password" placeholder="password"/><br>
+  <input type="submit" value="Sign in" class="button" />
 </form>
+
+</body>
